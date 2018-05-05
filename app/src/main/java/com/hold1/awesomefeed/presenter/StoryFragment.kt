@@ -29,14 +29,14 @@ class StoryFragment : Fragment() {
         val baseColors = context!!.resources.getIntArray(R.array.story_base_colors)
 
         view.setBackgroundColor(baseColors[Random().nextInt(baseColors.size - 1)])
-        view.setOnClickListener {
-            if (it.scaleY == 1.0f) {
-                it.scaleY = 0.9f
-                it.scaleX = 0.9f
-            } else {
-                view.scaleX = 1.0f
-                view.scaleY = 1.0f
-            }
-        }
+//        view.setOnClickListener {
+//            if (it.scaleY == 1.0f) {
+//                it.scaleY = 0.9f
+//                it.scaleX = 0.9f
+//            } else {
+//                view.scaleX = 1.0f
+//                view.scaleY = 1.0f
+//            }
+//        }
     }
 }

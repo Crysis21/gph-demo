@@ -1,7 +1,6 @@
 //package com.hold1.awesomefeed.presenter;
 //
 //import android.content.Context;
-//import android.content.res.TypedArray;
 //import android.support.v4.view.GestureDetectorCompat;
 //import android.support.v4.view.ViewCompat;
 //import android.support.v4.widget.ViewDragHelper;
@@ -12,17 +11,13 @@
 //import android.view.ViewConfiguration;
 //import android.widget.FrameLayout;
 //
-//import com.hold1.awesomefeed.R;
-//
 ///**
 // * 尽量考虑了所有操作系统版本的分辨率适配
 // * Created by xmuSistone on 2016/9/18.
 // */
 //public class DragLayout extends FrameLayout {
 //
-//    private int bottomDragVisibleHeight; // 滑动可见的高度
-//    private int bototmExtraIndicatorHeight; // 底部指示器的高度
-//    private int dragTopDest = 0; // 顶部View滑动的目标位置
+//    private int dragTopDest = 0;
 //    private static final int DECELERATE_THRESHOLD = 120;
 //    private static final int DRAG_SWITCH_DISTANCE_THRESHOLD = 100;
 //    private static final int DRAG_SWITCH_VEL_THRESHOLD = 800;
@@ -32,13 +27,13 @@
 //
 //    private static final int STATE_CLOSE = 1;
 //    private static final int STATE_EXPANDED = 2;
-//    private int downState; // 按下时的状态
+//    private int downState;
 //
 //    private final ViewDragHelper mDragHelper;
 //    private final GestureDetectorCompat moveDetector;
-//    private int mTouchSlop = 5; // 判定为滑动的阈值，单位是像素
-//    private int originX, originY; // 初始状态下，topView的坐标
-//    private View bottomView, topView; // FrameLayout的两个子View
+//    private int mTouchSlop = 5;
+//    private int originX, originY;
+//    private View bottomView, topView;
 //
 //    private GotoDetailListener gotoDetailListener;
 //
@@ -52,11 +47,6 @@
 //
 //    public DragLayout(Context context, AttributeSet attrs, int defStyleAttr) {
 //        super(context, attrs, defStyleAttr);
-//
-//        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.app, 0, 0);
-//        bottomDragVisibleHeight = (int) a.getDimension(R.styleable.app_bottomDragVisibleHeight, 0);
-//        bototmExtraIndicatorHeight = (int) a.getDimension(R.styleable.app_bototmExtraIndicatorHeight, 0);
-//        a.recycle();
 //
 //        mDragHelper = ViewDragHelper
 //                .create(this, 10f, new DragHelperCallback());
@@ -72,25 +62,6 @@
 //    @Override
 //    protected void onFinishInflate() {
 //        super.onFinishInflate();
-//        bottomView = getChildAt(0);
-//        topView = getChildAt(1);
-//
-//        topView.setOnClickListener(new OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                // 点击回调
-//                int state = getCurrentState();
-//                if (state == STATE_CLOSE) {
-//                    // 点击时为初始状态，需要展开
-//                    if (mDragHelper.smoothSlideViewTo(topView, originX, dragTopDest)) {
-//                        ViewCompat.postInvalidateOnAnimation(DragLayout.this);
-//                    }
-//                } else {
-//                    // 点击时为展开状态，直接进入详情页
-//                    gotoDetailActivity();
-//                }
-//            }
-//        });
 //    }
 //
 //    // 跳转到下一页
