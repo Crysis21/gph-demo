@@ -1,4 +1,4 @@
-package com.hold1.awesomefeed
+package com.hold1.awesomefeed.story
 
 import android.content.Context
 import android.graphics.Canvas

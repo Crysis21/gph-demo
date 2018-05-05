@@ -9,14 +9,17 @@
     tools:context=".MainActivity"
     tools:showIn="@layout/activity_main">
 
-    <android.support.v7.widget.RecyclerView
+    <com.hold1.awesomefeed.story.ShrinkingRecyclerView
         android:id="@+id/storyList"
+        android:paddingTop="400dp"
+        android:paddingBottom="400dp"
+        android:clipToPadding="false"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </android.support.v7.widget.RecyclerView>
+    </com.hold1.awesomefeed.story.ShrinkingRecyclerView>
 
-    <!--<com.hold1.awesomefeed.SkewContainer xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--<com.hold1.awesomefeed.story.SkewContainer xmlns:android="http://schemas.android.com/apk/res/android"-->
         <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
         <!--android:visibility="gone"-->
         <!--xmlns:tools="http://schemas.android.com/tools"-->
@@ -88,7 +91,7 @@
             <!--app:layout_constraintTop_toBottomOf="@+id/gif" />-->
 
 
-    <!--</com.hold1.awesomefeed.SkewContainer>-->
+    <!--</com.hold1.awesomefeed.story.SkewContainer>-->
 
 
 

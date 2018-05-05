@@ -3,4 +3,39 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+    <color name="story_color1_base">#9933FF</color>
+    <color name="story_color1_top">#6157ff</color>
+    <color name="story_color2_base">#6157ff</color>
+    <color name="story_color2_top">#00d983</color>
+    <color name="story_color3_base">#ff6666</color>
+    <color name="story_color3_top">#9933FF</color>
+    <color name="story_color4_base">#00ccff</color>
+    <color name="story_color4_top">#6157ff</color>
+    <color name="story_color5_base">#0036cc</color>
+    <color name="story_color5_top">#00ccff</color>
+    <color name="story_color6_base">#cd3ea2</color>
+    <color name="story_color6_top">#9933ff</color>
+
+
+
+    <integer-array name="story_base_colors">
+        <item>@color/story_color1_base</item>
+        <item>@color/story_color2_base</item>
+        <item>@color/story_color3_base</item>
+        <item>@color/story_color4_base</item>
+        <item>@color/story_color5_base</item>
+        <item>@color/story_color6_base</item>
+    </integer-array>
+
+    <integer-array name="story_top_colors">
+        <item>@color/story_color1_top</item>
+        <item>@color/story_color2_top</item>
+        <item>@color/story_color3_top</item>
+        <item>@color/story_color4_top</item>
+        <item>@color/story_color5_top</item>
+        <item>@color/story_color6_top</item>
+    </integer-array>
+
+
 </resources>
