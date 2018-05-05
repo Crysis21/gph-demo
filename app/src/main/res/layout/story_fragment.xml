@@ -2,6 +2,7 @@
 <com.hold1.awesomefeed.presenter.StoryLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:dragView="@+id/presentationOverlay"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -19,8 +20,10 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <View
+        android:id="@+id/presentationOverlay"
         android:background="#ff00ff"
         android:layout_margin="50dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
+
 </com.hold1.awesomefeed.presenter.StoryLayout>

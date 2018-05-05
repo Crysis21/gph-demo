@@ -11,6 +11,7 @@ import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewConfiguration
+import com.hold1.awesomefeed.R
 
 /**
  * Created by Cristian Holdunu on 05/05/2018.
@@ -26,12 +27,11 @@ class StoryLayout @JvmOverloads constructor(
     private val mDragHelper: ViewDragHelper
     private val moveDetector: GestureDetectorCompat
     private var mTouchSlop = 5
-    private var originX: Int = 0
     private var originY: Int = 0
-    private var bottomView: View? = null
     private var topView: View? = null
-    private var dragTopDest = -500
-    private var dragDistance = dragTopDest
+    private var dragDistance = 500
+    private var dragTopDest = -dragDistance
+    private var dragViewId = View.NO_ID
 
     init {
         mDragHelper = ViewDragHelper.create(this, 10f, DragHelperCallback())
@@ -41,12 +41,17 @@ class StoryLayout @JvmOverloads constructor(
 
         val configuration = ViewConfiguration.get(getContext())
         mTouchSlop = configuration.scaledTouchSlop
+
+        val array = context.obtainStyledAttributes(attrs, R.styleable.StoryLayout, 0, 0)
+        dragViewId = array.getResourceId(R.styleable.StoryLayout_dragView, View.NO_ID)
+        array.recycle()
+
     }
 
 
     override fun onFinishInflate() {
         super.onFinishInflate()
-        topView = getChildAt(childCount - 1)
+        topView = findViewById(dragViewId)
     }
 
 
@@ -56,9 +61,8 @@ class StoryLayout @JvmOverloads constructor(
         }
 
         super.onLayout(changed, left, top, right, bottom)
-
         originY = topView?.getY()?.toInt() ?: 0
-        dragDistance = Math.abs(dragTopDest - originY)
+        dragTopDest = originY - dragDistance
     }
 
     internal inner class MoveDetector : GestureDetector.SimpleOnGestureListener() {
@@ -69,15 +73,14 @@ class StoryLayout @JvmOverloads constructor(
     }
 
     private fun processLinkageView() {
-        if (topView!!.top >= dragTopDest) {
-            val currentDistance = Math.abs(dragTopDest - topView!!.getTop())
-            val distanceRatio = currentDistance.toFloat() / dragDistance
+        Log.d(TAG, "processLinkageView")
+        val currentDistance = topView!!.getTop() - originY
+        val distanceRatio = Math.min(1f, 1f - Math.abs(currentDistance.toFloat() / dragDistance))
 
-            Log.d(TAG, "distanceRatio=$distanceRatio")
-            topView?.setAlpha(Math.pow(distanceRatio.toDouble(), 2.0).toFloat())
-            setScaleX(0.9f + 0.1f * (1f - distanceRatio))
-            setScaleY(0.9f + 0.1f * (1f - distanceRatio))
-        }
+        Log.d(TAG, "distance=$currentDistance distanceRatio=$distanceRatio")
+        topView?.setAlpha(Math.pow(distanceRatio.toDouble(), 1.4).toFloat())
+        setScaleX(0.9f + 0.1f * (1f - distanceRatio))
+        setScaleY(0.9f + 0.1f * (1f - distanceRatio))
     }
 
     override fun computeScroll() {
@@ -123,11 +126,14 @@ class StoryLayout @JvmOverloads constructor(
         override fun tryCaptureView(child: View, pointerId: Int) = child === topView
 
         override fun clampViewPositionVertical(child: View, top: Int, dy: Int): Int {
-            if (top <= originY) {
+            if (top >= (originY - dragDistance) && top <= originY) {
                 return top
-            } else {
+            } else if (top > originY) {
                 return originY
+            } else if (top < originY - dragDistance) {
+                return originY - dragDistance
             }
+            return top
         }
 
         override fun clampViewPositionHorizontal(child: View, left: Int, dx: Int) = child.left
