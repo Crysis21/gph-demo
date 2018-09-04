@@ -19,3 +19,17 @@ Doing a quick search about Glide's performance with GIFs, we found multiple issu
 
 ### Integrating Fresco
 
+Setting up fresco was easy. Because we use GIF renditions with multiple qualities (e.q. thumbnails, gif details, story feed), we decided to setup 2 cache configs. In this way, fresco will not be forced to evict a lot of small thumbnails, because the cache will quickly fill with high quality images.
+
+``` kotlin
+val previewsDiskConfig = DiskCacheConfig.newBuilder(this)  
+        .setMaxCacheSize(250L * ByteConstants.MB).build()  
+val qualityDiskConfig = DiskCacheConfig.newBuilder(this)  
+        .setMaxCacheSize(250L * ByteConstants.MB).build()  
+val config = ImagePipelineConfig.newBuilder(this)  
+        .setSmallImageDiskCacheConfig(previewsDiskConfig)  
+        .setMainDiskCacheConfig(qualityDiskConfig)  
+        .build()  
+Fresco.initialize(this, config)
+```
+
