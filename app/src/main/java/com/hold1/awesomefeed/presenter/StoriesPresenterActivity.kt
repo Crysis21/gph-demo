@@ -18,7 +18,7 @@ class StoriesPresenterActivity : AppCompatActivity() {
         setContentView(R.layout.stories_presenter)
         val adapter = PresenterAdapter(supportFragmentManager)
         viewPager.adapter = adapter
-        viewPager.offscreenPageLimit = 1
+        viewPager.offscreenPageLimit = 2
         viewPager.setPageTransformer(false, CustPagerTransformer(this))
     }
 

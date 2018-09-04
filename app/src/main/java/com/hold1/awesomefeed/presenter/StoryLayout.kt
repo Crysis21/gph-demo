@@ -6,7 +6,6 @@ import android.support.v4.view.GestureDetectorCompat
 import android.support.v4.view.ViewCompat
 import android.support.v4.widget.ViewDragHelper
 import android.util.AttributeSet
-import android.util.Log
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
@@ -32,6 +31,9 @@ class StoryLayout @JvmOverloads constructor(
     private var dragDistance = 500
     private var dragTopDest = -dragDistance
     private var dragViewId = View.NO_ID
+    private var animationListeners = HashSet<AnimationListener>()
+
+    var animationPercentage = 0.0f
 
     init {
         mDragHelper = ViewDragHelper.create(this, 10f, DragHelperCallback())
@@ -73,14 +75,12 @@ class StoryLayout @JvmOverloads constructor(
     }
 
     private fun processLinkageView() {
-        Log.d(TAG, "processLinkageView")
         val currentDistance = topView!!.getTop() - originY
         val distanceRatio = Math.min(1f, 1f - Math.abs(currentDistance.toFloat() / dragDistance))
-
-        Log.d(TAG, "distance=$currentDistance distanceRatio=$distanceRatio")
-        topView?.setAlpha(Math.pow(distanceRatio.toDouble(), 1.4).toFloat())
+        topView?.setAlpha(distanceRatio)
         setScaleX(0.9f + 0.1f * (1f - distanceRatio))
         setScaleY(0.9f + 0.1f * (1f - distanceRatio))
+        animationListeners.forEach { it.animationUpdate(1f - distanceRatio) }
     }
 
     override fun computeScroll() {
@@ -89,12 +89,26 @@ class StoryLayout @JvmOverloads constructor(
         }
     }
 
+    private var startX = 0.0f
+    private var startY = 0.0f
+
     override fun onTouchEvent(e: MotionEvent): Boolean {
-        try {
-            mDragHelper.processTouchEvent(e)
-        } catch (ex: Exception) {
-            ex.printStackTrace()
+        when (e.action) {
+            MotionEvent.ACTION_DOWN, MotionEvent.ACTION_POINTER_DOWN -> {
+                startX = e.x
+                startY = e.y
+            }
+
+            MotionEvent.ACTION_MOVE -> {
+                val xMove = Math.abs(e.x - startX)
+                val yMove = Math.abs(e.y - startY)
+                if (xMove > yMove) {
+                    //We don't need horizontal events
+                    return false
+                }
+            }
         }
+        mDragHelper.processTouchEvent(e)
         return true
     }
 
@@ -150,4 +164,15 @@ class StoryLayout @JvmOverloads constructor(
         }
     }
 
+    fun addAnimationListener(listener: AnimationListener) {
+        animationListeners.add(listener)
+    }
+
+    fun removeAnimationListener(listener: AnimationListener) {
+        animationListeners.remove(listener)
+    }
+
+    interface AnimationListener {
+        fun animationUpdate(percentage: Float)
+    }
 }

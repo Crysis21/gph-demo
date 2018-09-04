@@ -18,6 +18,7 @@
     <color name="story_color6_top">#9933ff</color>
 
 
+    <color name="black">#000000</color>
 
     <integer-array name="story_base_colors">
         <item>@color/story_color1_base</item>

@@ -20,7 +20,7 @@ class CustPagerTransformer(context: Context) : ViewPager.PageTransformer {
     private var viewPager: ViewPager? = null
 
     init {
-        this.maxTranslateOffsetX = dp2px(context, 580f)
+        this.maxTranslateOffsetX = dp2px(context, 2080f)
     }
 
     override fun transformPage(view: View, position: Float) {
@@ -31,15 +31,17 @@ class CustPagerTransformer(context: Context) : ViewPager.PageTransformer {
         val leftInScreen = view.left - viewPager!!.scrollX
         val centerXInViewPager = leftInScreen + view.measuredWidth / 2
         val offsetX = centerXInViewPager - viewPager!!.measuredWidth / 2
-        val offsetRate = offsetX.toFloat() * 0.18f / viewPager!!.measuredWidth
+        val offsetRate = offsetX.toFloat() * 0.05f / viewPager!!.measuredWidth
         Log.d(TAG, "position=$position  ofRate=$offsetRate")
         val scaleFactor = 1 - Math.abs(offsetRate) - 0.1f
 
         if (scaleFactor > 0) {
+            view.pivotX = (view.width/2).toFloat()
+            view.pivotY = view.height.toFloat()
             view.scaleX = scaleFactor
             view.scaleY = scaleFactor
             view.translationX = -maxTranslateOffsetX * offsetRate
-            ViewCompat.setElevation(view, scaleFactor * 20)
+            ViewCompat.setElevation(view, scaleFactor * 30)
         }
     }
 

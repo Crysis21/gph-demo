@@ -1,29 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.hold1.awesomefeed.presenter.StoryLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.hold1.awesomefeed.presenter.StoryLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:dragView="@+id/presentationOverlay"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/storyLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    app:dragView="@+id/dragView">
+
+    <com.hold1.awesomefeed.story.ShrinkingRecyclerView
+        android:id="@+id/storyList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/presentationOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.hold1.bubblegum.BubbleView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="0.9"
+            app:bbAngle="90"
+            app:bbEndColor="@color/story_color1_top"
+            app:bbStartColor="@color/story_color1_base" />
+
+    </android.support.constraint.ConstraintLayout>
+
 
     <TextView
+        android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="16dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="Test this is a fragmgent"
+        android:text="SWIPE TO BEGIN"
+        android:textColor="#ffffff"
+        android:textSize="16dp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <SeekBar
+        android:id="@+id/progress"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_marginTop="22dp"
+        android:backgroundTint="@color/story_color1_base"
+        android:max="100"
+        android:progress="50"
+        android:progressBackgroundTint="#5e5e5e"
+        android:progressTint="#2b74f4"
+        android:thumb="@null"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <View
-        android:id="@+id/presentationOverlay"
-        android:background="#ff00ff"
-        android:layout_margin="50dp"
+        android:id="@+id/dragView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-
+        android:layout_height="match_parent" />
 </com.hold1.awesomefeed.presenter.StoryLayout>

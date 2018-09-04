@@ -3,4 +3,16 @@
     <declare-styleable name="StoryLayout">
         <attr name="dragView" format="reference"/>
     </declare-styleable>
+
+    <declare-styleable name="ExpandableButton">
+        <attr name="miniView" format="reference"/>
+        <attr name="expandView" format="reference"/>
+    </declare-styleable>
+
+    <declare-styleable name="TitlePresenter">
+        <attr name="gphTextSize" format="dimension"/>
+        <attr name="gphTextColor" format="color"/>
+        <attr name="gphFont" format="string"/>
+        <attr name="gphText" format="string"/>
+    </declare-styleable>
 </resources>

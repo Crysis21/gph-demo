@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.hold1.awesomefeed.ExpandableButton
+        android:id="@+id/expandableButton"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:background="#ff00ff"
+        app:expandView="@+id/title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:miniView="@+id/icon">
+
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_action_like_fill" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:lines="1"
+            android:text="Just a Demo" />
+    </com.hold1.awesomefeed.ExpandableButton>
+
+
+    <com.hold1.awesomefeed.ExpandableButton
+        android:id="@+id/expandableButton2"
+        android:layout_width="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toEndOf="@+id/expandableButton"
+        android:layout_marginLeft="16dp"
+        android:layout_height="40dp"
+        android:background="#ff00ff"
+        app:expandView="@+id/title2"
+        app:miniView="@+id/icon2">
+
+        <ImageView
+            android:id="@+id/icon2"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_action_like_fill" />
+
+        <TextView
+            android:id="@+id/title2"
+            android:layout_width="100dp"
+            android:lines="1"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Just a Demo" />
+    </com.hold1.awesomefeed.ExpandableButton>w
+
+    <SeekBar
+        android:id="@+id/progress"
+        android:layout_width="match_parent"
+        android:min="0"
+        android:max="100"
+        android:layout_marginTop="20dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/expandableButton" />
+</android.support.constraint.ConstraintLayout>
