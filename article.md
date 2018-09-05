@@ -18,7 +18,6 @@ We quickly drafted a demo app in which we loaded a ton of gifs, similar to our o
 Doing a quick search about Glide's performance with GIFs, we found multiple issues on GitHub related to this issue. Developers made it clear that performance can't be improved, unless they rewrite their rendering engine from scratch. At this point, it was clear we have a winner: Fresco
 
 ### Integrating Fresco
-
 Setting up fresco was easy. Because we use GIF renditions with multiple qualities (e.q. thumbnails, gif details, story feed), we decided to setup 2 cache configs. In this way, fresco will not be forced to evict a lot of small thumbnails, because the cache will quickly fill with high quality images.
 
 ``` kotlin
@@ -32,4 +31,22 @@ val config = ImagePipelineConfig.newBuilder(this)
         .build()  
 Fresco.initialize(this, config)
 ```
+For rendering we used the `SimpleDraweeView` class. With just some small additions to support our SDK models out of the box, we had fresco rendering our GIFs in no time. Loading a image into a `DraweeView` basically means creating a new controller and assigning it to the view
 
+```kotlin
+val newController = Fresco.newDraweeControllerBuilder()  
+        .setUri(uri)  
+        .setOldController(draweeView.controller)  
+        .setControllerListener(getControllerListener())  
+        .build()
+draweeView.controller = newController
+```
+Easy, fast, fun! Launch it!
+https://media.giphy.com/media/Nweu3IeBIZIvm/giphy.gif
+
+## Fresco limitations
+When opening a GIF details page or a story, the app loads a set of image renditions, starting from low-quality images to high-quality ones. We soon discovered that making a simple request to change the resource of a `DraweeView`, fresco will clear the current content, display the placeholder, then load the new resource. Even with the resources preloaded, there is a noticeable flickering.
+
+To solve this issue we found 2 solutions:
+1. Fresco provides a low-quality/high-quality schema for loading images. Unfortunately, in this schema, the low-quality image is not animated.
+2. Use a `RetainingDataSource`. While it's purpose was exactly what we were looking for, it turns out that this data source, does it's magic by lying to the underlying fresco implementation, keeping it in a forever `PROGRESS` state. That means the image controllers will never be notified when an GIF is loaded and they will never start to play.
