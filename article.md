@@ -63,3 +63,9 @@ Solving the issue in our case meant:
 2. Mark `RetainingDataSource` as a data source capable of delivering multiple results.
 3. Modify the fresco `DraweeController` base class to deliver each result to it's drawee controlers.  At this point, controllers will start playing the animated drawables.
 
+https://media.giphy.com/media/10mzF0YmVmZNuw/giphy.gif
+
+You can check our work on the fresco repo
+https://github.com/facebook/fresco/pull/2185
+or watch the results on youtube
+https://youtu.be/A67X6Vn9VjY
