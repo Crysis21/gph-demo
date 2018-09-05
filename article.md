@@ -45,8 +45,21 @@ Easy, fast, fun! Launch it!
 https://media.giphy.com/media/Nweu3IeBIZIvm/giphy.gif
 
 ## Fresco limitations
-When opening a GIF details page or a story, the app loads a set of image renditions, starting from low-quality images to high-quality ones. We soon discovered that making a simple request to change the resource of a `DraweeView`, fresco will clear the current content, display the placeholder, then load the new resource. Even with the resources preloaded, there is a noticeable flickering.
+When opening a GIF details page or a story, the app loads a set of image renditions, starting from low-quality images to high-quality ones. We soon discovered that when making a simple request to change the resource of a `DraweeView`, fresco will clear the current content, display the placeholder, then load the new resource. Even with the resources preloaded, there is a noticeable flickering.
 
 To solve this issue we found 2 solutions:
 1. Fresco provides a low-quality/high-quality schema for loading images. Unfortunately, in this schema, the low-quality image is not animated.
-2. Use a `RetainingDataSource`. While it's purpose was exactly what we were looking for, it turns out that this data source, does it's magic by lying to the underlying fresco implementation, keeping it in a forever `PROGRESS` state. That means the image controllers will never be notified when an GIF is loaded and they will never start to play.
+2. Use a `RetainingDataSource`. This allows us to keep the same `DraweeController` and replace it's content. Unfortunately, we couldn't make animated images play.
+
+None of the above solutions worked out of the box, so we decided to fork fresco and fix the problem.  Analyzing fresco lifecycle, we identified the following actors responsible for loading and rendering images:
+
+![enter image description here](https://github.com/Crysis21/gph-demo/blob/master/diagram.png)
+
+While `RetainingDataSource` looked like what we were looking for,  it turns out that this data source, does it's magic by lying to the underlying fresco implementation, keeping it in a forever `PROGRESS` state. That means the `DraweeControllers` will never be notified when an GIF is loaded and they will never start to play.
+
+**Fixing RetainingDataSource**
+Solving the issue in our case meant:
+1. Let  `DataSource` provide multiple results. In our loading flow, a new result ment a GIF image of a higher quality. 
+2. Mark `RetainingDataSource` as a data source capable of delivering multiple results.
+3. Modify the fresco `DraweeController` base class to deliver each result to it's drawee controlers.  At this point, controllers will start playing the animated drawables.
+
